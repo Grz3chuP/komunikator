@@ -1,5 +1,28 @@
+<div class="mainWindowWrapper">
+  <div class="userWrapper">
+
+  </div>
+  <div #historyWindowWrapper id="historyWindowWrapper" class="historyWindowWrapper">
+   <div class="messagesWrapper" *ngFor="let message of messages()">
+      <div class="message">
+        <div class="messageTextWrapper">
+          {{message.message}}
+        </div>
+        <div class="messageTimeWrapper">
+          {{message.date| date:'HH:mm'}}
+        </div>
+      </div>
+
+   </div>
+  </div>
+  <div class="enterTextWrapper">
+    <input type="text"
+           name="userText"
+           [(ngModel)]="userText"
+           (keydown.enter)="sendMessage()" >
+  </div>
+</div>
 
 
 
 
-<router-outlet></router-outlet>
