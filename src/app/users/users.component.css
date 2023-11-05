@@ -1,0 +1,58 @@
+.usersWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  height: 500px;
+  background-color: #c6ec84;
+
+  position: absolute;
+  left: 55px;
+  top: -3px;
+
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.usersList  {
+  margin-top: 2px;
+width: 94px;
+height: 494px;
+  border: darkolivegreen solid 1px;
+  background-color: #85b03f;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    z-index: -1;
+
+  }
+  99% {
+
+    z-index: -1;
+  }
+  100% {
+    transform: translateX(0);
+    z-index: 1;
+  }
+}
+.usersListTitle {
+  width: 100%;
+  height: 30px;
+  background-color: #85b03f;
+  border-bottom: darkolivegreen solid 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+
+}
+.usersListContent {
+  padding: 3px 4px;
+  margin: 2px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 3px;
+ cursor: pointer;
+
+}
+

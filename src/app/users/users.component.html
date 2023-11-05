@@ -1,0 +1,13 @@
+<div class="usersWrapper">
+  <div class="usersList">
+    <div class="usersListTitle">
+      Users List:
+    </div>
+    <div class="usersListContent"
+         *ngFor="let users of usersList()"
+         (click)="changeUserRoom(users.name)">
+     {{users.name}}
+    </div>
+  </div>
+
+</div>

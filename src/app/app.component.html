@@ -1,6 +1,11 @@
 <div class="mainWindowWrapper">
   <div class="userWrapper">
+    <div class="activeUser" >{{selectedUser()}}</div>
+  <div class="usersButton">
 
+    <button (click)="showUsers()">Users</button>
+    <app-users *ngIf="showUsersWindow"></app-users>
+  </div>
   </div>
   <div #historyWindowWrapper id="historyWindowWrapper" class="historyWindowWrapper">
    <div class="messagesWrapper" *ngFor="let message of messages()">

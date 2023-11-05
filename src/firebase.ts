@@ -24,17 +24,17 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 
-export function addMessageToDatabase(message: string) {
-  const newMessageRef = push(ref(db, 'messages'));
+export function addMessageToDatabase(message: string, path: any) {
+  const newMessageRef = push(ref(db, 'rooms/' + path ));
   set(newMessageRef, {
     message: message,
     date: new Date().toISOString()
   });
 }
 export const messages = signal<Messagestemplate[]>([]);
-export async function getMessagesFromDatabase() {
+export async function getMessagesFromDatabase(path: any ) {
   try {
-    const snapshot = await get(ref(db, 'messages'));
+    const snapshot = await get(ref(db, 'rooms/' + path));
       const data = snapshot.val();
      for (const key in data) {
        console.log(data[key]);
@@ -54,26 +54,57 @@ console.error(error);
 }
 
 
+export async function updateMessagesFromDatabase(path: any) {
+  onValue(ref(db, 'rooms/' + path), (snapshot) => {
+    const data = snapshot.val();
+    messages.set([]);
+    try {
+      for (const key in data) {
+        console.log(data[key]);
+        messages.update((value) => {
+          if (!Array.isArray(value)) {
+            // Initialize the value as an empty array if it's not already an array
+            value = [];
+          }
 
-onValue(ref(db, 'messages'), (snapshot) => {
-  const data = snapshot.val();
-  messages.set([]);
-  try {
-    for (const key in data) {
-      console.log(data[key]);
-      messages.update((value) => {
-        if (!Array.isArray(value)) {
-          // Initialize the value as an empty array if it's not already an array
-          value = [];
-        }
+          return [...value, data[key]];
+        });
+      }
+    } catch (error) {
+      console.error(error);
 
-        return [...value, data[key]];
-      });
     }
+  });
+}
 
-  } catch (error) {
-    console.error(error);
+export const usersList = signal<any>([]);
+export let selectedUser = signal<any>(null);
+export const activeUser = signal<any>('greg');
+export async function updateUsers() {
+  onValue(ref(db, 'users'), (snapshot) => {
+    const data = snapshot.val();
+      try {
+      for (const key in data) {
+      usersList.update((value) => {
+          if (!Array.isArray(value)) {
+            // Initialize the value as an empty array if it's not already an array
+            value = [];
+          }
+          return [...value, data[key]];
+        });
+      }
+    } catch (error) {
+      console.error(error);
 
-  }
-});
+    }
+  });
+}
 
+export function sortUsersRoom() {
+ const users = [];
+ users.push(activeUser());
+  users.push(selectedUser());
+  users.sort();
+  return users.join('');
+
+}

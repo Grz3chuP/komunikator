@@ -7,11 +7,18 @@
   justify-content: center;
 }
 .userWrapper {
+  display: flex;
+  justify-content: end;
   width: 290px;
   height: 50px;
   background-color: #85b03f;
   border: darkolivegreen solid 1px;
   margin-top: 2px;
+}
+.activeUser {
+  background-color: #85b03f;
+  width: 100%;
+
 }
 .historyWindowWrapper {
   width: 290px;
@@ -49,4 +56,9 @@
 .messageTimeWrapper {
   font-size: 0.7rem;
   color: #777777;
+}
+.usersButton {
+  position: relative;
+  display: flex;
+  justify-content: end;
 }

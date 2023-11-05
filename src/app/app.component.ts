@@ -1,5 +1,11 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import {addMessageToDatabase, getMessagesFromDatabase, messages } from "../firebase";
+import {
+  addMessageToDatabase,
+  getMessagesFromDatabase,
+  messages, selectedUser,
+  updateMessagesFromDatabase,
+  usersList
+} from "../firebase";
 
 
 @Component({
@@ -12,13 +18,17 @@ export class AppComponent implements AfterViewInit{
   userText = '';
   @ViewChild('historyWindowWrapper', { static: false }) historyWindowWrapper!: ElementRef;
   constructor() {
-
+updateMessagesFromDatabase(selectedUser()).then(() => {
+  setTimeout(() => {
+    this.scrollToTop();
+  }, 100);
+});
   }
 
 
   sendMessage() {
     if (this.userText) {
-      addMessageToDatabase(this.userText);
+      addMessageToDatabase(this.userText, selectedUser());
       this.scrollToTop();
       this.userText = '';
     }
@@ -30,9 +40,18 @@ export class AppComponent implements AfterViewInit{
   }
 
   scrollToTop() {
-
-    this.historyWindowWrapper.nativeElement.scrollTop = this.historyWindowWrapper.nativeElement.scrollHeight;
-    console.log(this.historyWindowWrapper.nativeElement.scrollHeight);
+setTimeout(() => {
+  this.historyWindowWrapper.nativeElement.scrollTop = this.historyWindowWrapper.nativeElement.scrollHeight;
+  console.log(this.historyWindowWrapper.nativeElement.scrollHeight);
+}, 100);
   }
   protected readonly messages = messages;
+  showUsersWindow = true;
+
+  showUsers() {
+    this.showUsersWindow = !this.showUsersWindow;
+    usersList.set([]);
+  }
+
+  protected readonly selectedUser = selectedUser;
 }
