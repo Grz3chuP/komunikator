@@ -4,6 +4,7 @@ import { getDatabase } from "firebase/database";
 import { push, ref, set, onValue, get } from "firebase/database";
 import {signal} from "@angular/core";
 import {Messagestemplate} from "./models/messagestemplate";
+import {filter} from "rxjs";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -59,17 +60,11 @@ export async function updateMessagesFromDatabase(path: any) {
     const data = snapshot.val();
     messages.set([]);
     try {
+      const updatedMessages = [];
       for (const key in data) {
-        console.log(data[key]);
-        messages.update((value) => {
-          if (!Array.isArray(value)) {
-            // Initialize the value as an empty array if it's not already an array
-            value = [];
-          }
-
-          return [...value, data[key]];
-        });
+        updatedMessages.push(data[key]);
       }
+      messages.set(updatedMessages);
     } catch (error) {
       console.error(error);
 
@@ -84,18 +79,14 @@ export async function updateUsers() {
   onValue(ref(db, 'users'), (snapshot) => {
     const data = snapshot.val();
       try {
+        const updatedUsers = [];
       for (const key in data) {
-      usersList.update((value) => {
-          if (!Array.isArray(value)) {
-            // Initialize the value as an empty array if it's not already an array
-            value = [];
-          }
-          return [...value, data[key]];
-        });
+       updatedUsers.push(data[key]);
       }
+      usersList.set(updatedUsers);
+      usersList.set(usersList().filter((value: any) => value.name !== activeUser()));
     } catch (error) {
       console.error(error);
-
     }
   });
 }

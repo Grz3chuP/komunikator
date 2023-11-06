@@ -1,5 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {selectedUser, updateMessagesFromDatabase, updateUsers, usersList} from "../../firebase";
+import {selectedUser, sortUsersRoom, updateMessagesFromDatabase, updateUsers, usersList} from "../../firebase";
 
 @Component({
   selector: 'app-users',
@@ -16,7 +16,7 @@ updateUsers()
   changeUserRoom(name: string) {
     console.log('Change user room to: ' + name);
     selectedUser.set(name);
-    updateMessagesFromDatabase(selectedUser());
+    updateMessagesFromDatabase(sortUsersRoom());
 
 
 

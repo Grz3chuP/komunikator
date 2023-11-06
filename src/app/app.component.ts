@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {
   addMessageToDatabase,
   getMessagesFromDatabase,
-  messages, selectedUser,
+  messages, selectedUser, sortUsersRoom,
   updateMessagesFromDatabase,
   usersList
 } from "../firebase";
@@ -18,7 +18,7 @@ export class AppComponent implements AfterViewInit{
   userText = '';
   @ViewChild('historyWindowWrapper', { static: false }) historyWindowWrapper!: ElementRef;
   constructor() {
-updateMessagesFromDatabase(selectedUser()).then(() => {
+updateMessagesFromDatabase(sortUsersRoom()).then(() => {
   setTimeout(() => {
     this.scrollToTop();
   }, 100);
@@ -28,7 +28,7 @@ updateMessagesFromDatabase(selectedUser()).then(() => {
 
   sendMessage() {
     if (this.userText) {
-      addMessageToDatabase(this.userText, selectedUser());
+      addMessageToDatabase(this.userText, sortUsersRoom());
       this.scrollToTop();
       this.userText = '';
     }
